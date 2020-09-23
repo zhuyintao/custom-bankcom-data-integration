@@ -1,0 +1,62 @@
+info:
+  app:
+    name: @project.artifactId@
+    description: @project.description@
+    version: @project.version@
+
+spring:
+  application:
+    name: ${info.app.name}
+  cloud:
+    config:
+      name: ${info.app.name}
+      profile: ${profile:demo}
+      discovery:
+        enabled: true
+        service-id: env-config
+      fail-fast: true
+      label: master
+  #  datasource:
+  #    url: jdbc:mysql://192.168.11.134:3306/bk_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+  #    username: root
+  #    password: mysql
+  #  redis:
+  #    host: 192.168.11.134
+  #    port: 6379
+  #    password:
+  #    timeout: 5000
+  #  flyway:
+  #    url: jdbc:mysql://192.168.11.134:3306?useUnicode=true&characterEncoding=utf8&useSSL=false
+  jpa:
+    database: MySQL
+    database-platform: com.eccom.cloudnet.custom.common.configs.MySQL5DialectUTF8
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: ${port:0}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-server:http://eureka:8080/eureka}
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    instance-id: ${info.app.name}-${info.app.version}-${id:${random.uuid}}
+    prefer-ip-address: true
+    home-page-url-path: /actuator
+    health-check-url-path: /actuator/health
+    status-page-url-path: /actuator/info
+
+#nop:
+#  rpc:
+#    url: http://192.168.43.40:8069
+#    db: wedoapp
+#    userName: admin
+#    passWord: nops2016**
+#    moduleIds: cm.cmdb.ci
+#    methodIds: search_ciids
+#    moduleDatas: cm.cmdb.ci
+#    methodDatas: search_read_ci
+    # worker.rpc
